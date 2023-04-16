@@ -23,7 +23,7 @@ export default function Card(props){
         <div className="container mx-auto bg-white drop-shadow-2xl shadow-[-10px_0px_20px_7px_rgba(0,0,0,0.5)] shadow-cyan-500/50 h-[12rem] max-h-[12rem] min-h-[12rem] w-[65rem] flex md:flex-row justify-start my-8">
             <div className="flex-auto container mx-auto  drop-shadow-2xl h-full w-[3rem] flex md:flex-col justify-center items-center">
                 <p className="text-center pb-4 font-mono ">{props.username}</p>
-                <img className={f} src={props.imgsrc} />
+                <img className={f} src={props.imgsrc} referrerPolicy="no-referrer" />
             </div>
             <div className="flex-auto container mx-auto  drop-shadow-2xl h-full w-[40rem] flex md:flex-col">
                 <div className="flex-auto container mx-auto flex md:flex-row border-b-2 overflow-auto  ">

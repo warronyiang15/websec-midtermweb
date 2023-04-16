@@ -150,7 +150,7 @@ export default function RootLayout() {
                         <img
                           className="h-8 w-8 rounded-full"
                           src={profile}
-                          alt=""
+                          referrerPolicy="no-referrer"
                         />
                       </Menu.Button>
                     </div>

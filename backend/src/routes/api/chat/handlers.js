@@ -19,7 +19,7 @@ export async function getAllChat(req, res){
 
     for(let i = 0;i < chatArray.length;i++){
         const chat = chatArray[i];
-        const test = await prisma.user.findUnique({ where: { username: chat.username } });
+        const test = await prisma.userc.findUnique({ where: { username: chat.username } });
         if( test === null ) continue;
         const ret = {
             id: chat.id,

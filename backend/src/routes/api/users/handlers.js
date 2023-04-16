@@ -42,7 +42,7 @@ export async function createUser(req, res){
         }
         return res.status(400).json(ret);
     }
-    const test = await prisma.user.findUnique({ where: { username: req.body.username } } );
+    const test = await prisma.userc.findUnique({ where: { username: req.body.username } } );
     if( test !== null ){
         const ret = {
             "error": "User exists!"
@@ -109,7 +109,7 @@ export async function createUser(req, res){
         return res.status(500).json(ret);
     }
 
-    const user = await prisma.user.create(
+    const user = await prisma.userc.create(
         {
             data:{
                 username: username,
@@ -137,7 +137,7 @@ export async function createUser(req, res){
 export async function validateUser(req, res){
     
     // find the user first
-    const user = await prisma.user.findUnique({ where: { username: req.body.username }});
+    const user = await prisma.userc.findUnique({ where: { username: req.body.username }});
     if( user === null ){
         // Not found
         const ret = {
