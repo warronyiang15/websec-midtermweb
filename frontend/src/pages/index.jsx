@@ -226,7 +226,7 @@ export function RootIndex() {
     return (
         <div className="container mx-auto px-4 bg-slate-300 h-[50rem] flex md:flex-col justify-center">
             <div className="container mx-auto px-4 h-[28rem] flex justify-center">
-                <img className="md:drop-shadow-xl" src="src/assets/R.jpeg" alt="new"/>
+                <img className="md:drop-shadow-xl" src="src/assets/R.jpeg" alt="new" referrerPolicy="no-referrer"/>
             </div>
             <div className="container mx-auto px-4  h-[12rem] flex justify-center items-center">
                 <p className="text-2xl font-semibold subpixel-antialiased font-mono">CSS IS HARD D:</p>
