@@ -47,6 +47,7 @@ export default function Chat(){
             else{
                 setMessage({ status: true, error: false, description: 'Successfully deleted chat!'})
             }
+            fetchChat();
         })
     }
 
