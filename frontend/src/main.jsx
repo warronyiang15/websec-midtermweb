@@ -6,7 +6,6 @@ import About from './pages/about'
 import Login from './pages/login'
 import Register from './pages/register'
 import Chat from './pages/chat'
-import App from './App'
 import './index.css'
 
 const router = createBrowserRouter([

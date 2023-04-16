@@ -11,13 +11,14 @@ const port = process.env.PORT || 8000;
 
 const app = express();
 
-app.use(express.json());
+//! Limit it to 1MB enough
+app.use(express.json({limit: '1mb'}));
 
 if( process.env.NODE_ENV === 'production' ){
     app.set('trust proxy', 1);
 }
 
-/*
+
 app.use(
     session({
         cookie: {
@@ -33,10 +34,10 @@ app.use(
         saveUninitialized: false,
     })
 );
-*/
+
 app.use(cookieParser());
-//app.use(doubleCsrfProtection);
-//app.use(csrfErrorHandler);
+app.use(doubleCsrfProtection);
+app.use(csrfErrorHandler);
 app.use(rootRouter);
 
 app.get("/", (req, res) => {

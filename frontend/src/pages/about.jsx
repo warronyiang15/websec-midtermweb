@@ -1,3 +1,6 @@
+import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+
 export default function About(){
     return (
         <div className="container mx-auto px-4 bg-slate-300 h-[50rem] flex md:flex-col justify-center">

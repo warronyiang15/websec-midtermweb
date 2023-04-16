@@ -1,8 +1,23 @@
 import Fab from '@mui/material/Fab';
 import CloseIcon from '@mui/icons-material/Close';
+import { Fragment } from 'react';
 
 export default function Card(props){
     const f = `container mx-auto bg-slate-300 rounded-full w-[6rem] h-[6rem]  bg-cover bg-[url('${props.imgsrc}')] shadow-[0px_0px_20px_7px_rgba(0,0,0,0.5)]`
+
+
+    const handleDelete = async(event) => {
+        alert(1);
+    }
+
+    const getDeleteBtn = () => {
+        return(
+            <Fab onClick={handleDelete} color="error" aria-label="add" >
+                <CloseIcon />
+            </Fab>
+        )
+    }
+
     return (
         <div className="container mx-auto bg-white drop-shadow-2xl shadow-[-10px_0px_20px_7px_rgba(0,0,0,0.5)] shadow-cyan-500/50 h-[12rem] max-h-[12rem] min-h-[12rem] w-[65rem] flex md:flex-row justify-start my-8">
             <div className="flex-auto container mx-auto  drop-shadow-2xl h-full w-[3rem] flex md:flex-col justify-center items-center">
@@ -18,9 +33,7 @@ export default function Card(props){
                 </div>
             </div>
             <div className="container mx-auto w-[5rem] pt-14">
-                <Fab color="error" aria-label="add" >
-                    <CloseIcon />
-                </Fab>
+                {props.user != null && (props.user.username === props.username) ? getDeleteBtn() : (null)}
             </div>
         </div>
     )

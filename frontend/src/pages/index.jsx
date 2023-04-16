@@ -2,6 +2,8 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import services from '../services';
+import { useState, useEffect, useReducer } from 'react';
 
 const navigation = [
     { name: "Home", href: "/"},
@@ -16,6 +18,79 @@ function classNames(...classes) {
 }
 
 export default function RootLayout() {
+  const [profile, setProfile] = useState('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80')
+  const [status, setStatus] = useState(false);
+  
+  const handleLogin = async () => {
+    services.user.getStatus({}).then((data) => {
+      if( !data.error ){
+        setProfile(data.profile);
+        setStatus(true);
+      }
+    })
+  }
+
+  const handleLogout = async () => {
+    services.user.logoutUser({}).then((data) => {
+      if( !data.error ){
+        window.location.pathname = '/';
+        setStatus(false);
+        setProfile('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');
+      }
+    })
+  }
+
+  useEffect(() => {
+    handleLogin();
+  }, [])
+
+  const myrender = (item) => {
+    if( status ){
+      if( item.name === 'Login' || item.name === 'Register'){
+        return (
+          <Fragment></Fragment>
+        )
+      }
+      else{
+        return (
+          <NavLink
+            key={item.name}
+            to={item.href}
+            className={({ isActive }) =>
+              classNames(
+                isActive
+                  ? "bg-gray-900 text-white"
+                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                "rounded-md px-3 py-2 text-sm font-medium"
+              )
+            }
+          >
+            {item.name}
+          </NavLink>
+        )
+      }
+    }
+    else{
+      return (
+        <NavLink
+          key={item.name}
+          to={item.href}
+          className={({ isActive }) =>
+            classNames(
+              isActive
+                ? "bg-gray-900 text-white"
+                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+              "rounded-md px-3 py-2 text-sm font-medium"
+            )
+          }
+        >
+          {item.name}
+        </NavLink>
+      )
+        }
+  }
+
+
   return (
     
     <div>
@@ -50,22 +125,7 @@ export default function RootLayout() {
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                      {navigation.map((item) => (
-                        <NavLink
-                          key={item.name}
-                          to={item.href}
-                          className={({ isActive }) =>
-                            classNames(
-                              isActive
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "rounded-md px-3 py-2 text-sm font-medium"
-                            )
-                          }
-                        >
-                          {item.name}
-                        </NavLink>
-                      ))}
+                      {navigation.map((item) => myrender(item) )}
                     </div>
                   </div>
                 </div>
@@ -89,7 +149,7 @@ export default function RootLayout() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={profile}
                           alt=""
                         />
                       </Menu.Button>
@@ -105,7 +165,7 @@ export default function RootLayout() {
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         
-                        <Menu.Item>
+                        <Menu.Item onClick={handleLogout}>
                           {({ active }) => (
                             <a
                               href="#"
