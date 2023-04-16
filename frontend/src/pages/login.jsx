@@ -27,7 +27,8 @@ export default function Login(){
     const handleFormSubmit = async (event) => {
         services.user.getUser({ username: formData.username, password: formData.password }).then((data) => {
             if(data.error){
-                setMessage({ status: true, error: true, description: data.description });
+                console.log(data);
+                setMessage({ status: true, error: true, description: data.description === undefined ? 'Something is wrong...' : data.description });
             }
             else{
                 /* Successfully logged in! */

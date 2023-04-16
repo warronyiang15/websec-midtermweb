@@ -1,10 +1,12 @@
 import { user } from './user';
 import { auth } from './auth';
+import { chat } from './chat';
 import api from './axiosClient';
 
 const services = {
     auth,
     user,
+    chat,
 };
 
 api.interceptors.request.use(

@@ -24,11 +24,13 @@ export const user = {
         }
     },
     async getStatus(){
-        const data = await api.get('/users/status', {}).catch( (err) => {
-            return { error: true, 'description': err.response.data.description }
+        const data = api.get('/users/status', {}).then((data) =>{
+            return data.data;
+        }).catch((error) => {
+            return { error: true, 'description': error.response.data.description }
         });
-        if( data.error ) return data;
-        else return data.data;
+        
+        return data;
     },
     async logoutUser(){
         const data = await api.post('/users/logout', {}).catch( (err) => {

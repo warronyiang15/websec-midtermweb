@@ -8,6 +8,7 @@ import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import services from '../services';
 import { TextField, Alert } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const ariaLabel = { 'aria-label': 'description' };
 
@@ -15,7 +16,7 @@ export default function Register(){
 
     const [formData, setFormData] = useState({ username: "", password: "" } );
     const [message, setMessage] = useState({ status: false, error: false, description: ""});
-
+    const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
 
     function convertToBase64(files){
@@ -30,6 +31,10 @@ export default function Register(){
             };
         });
     };
+
+    useEffect(() => {
+        setLoading(false);
+    }, [message])
 
 
     /** @type {React.ChangeEventHandler<HTMLInputElement>} */
@@ -61,6 +66,7 @@ export default function Register(){
     }
 
     const handleFormSubmit = async (event) => {
+        setLoading(true);
         if( formData.username.length <= 0 || formData.username.length > 10 ){
             setMessage({status: true, error: true, description: "Username Input Error!"});
             event.preventDefault();
@@ -81,13 +87,14 @@ export default function Register(){
 
         const base64 = await convertToBase64(file);
         services.user.createUser({username: formData.username, password: formData.password, profile: base64  }).then((data) => {
-            console.log(data);
+            
             if( data.error ){
-                setMessage({status: true, error: true, description: data.description});    
+                setMessage({status: true, error: true, description: data.description === undefined ? 'Something wrong...' : data.description});    
             }
             else{
                 setMessage({status: true, error: false, description: "Successfully Created!"});  
-                
+                setFormData({ username: "", password: "" });
+                setFile(null);
             }
         });
         event.preventDefault();
@@ -158,6 +165,22 @@ export default function Register(){
                     onChange={handleTextInputChange}
                     variant="standard"
                 />
+            )
+        }
+    }
+
+    const getButton = () => {
+        //<Button variant="contained" sx={{position:'relative', right: '0px',width:'280px'}} color='error' onClick={handleFormSubmit}>Register</Button>
+        if( !loading ){
+            return (
+                <Button variant="contained" sx={{position:'relative', right: '0px',width:'280px'}} color='error' onClick={handleFormSubmit}>Register</Button>
+            )
+        }
+        else{
+            return (
+                <LoadingButton loading sx={{ backgroundColor: 'gray', position:'relative', right: '0px',width:'280px'}} variant="outlined">
+                    Submit
+                </LoadingButton>
             )
         }
     }
@@ -262,7 +285,7 @@ export default function Register(){
                         </div>
                     </div>
 
-                    <Button variant="contained" sx={{position:'relative', right: '0px',width:'280px'}} color='error' onClick={handleFormSubmit}>Register</Button>
+                    {getButton()}
                 </div>
             </div>
         </div>
